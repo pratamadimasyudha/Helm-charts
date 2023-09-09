@@ -1,0 +1,30 @@
+namespace: default
+
+labels:
+  app: next
+
+configMap:
+  name: next-config
+  data:
+    YOUR_FIRST_ENV_VAR: 012345
+    YOUR_SECOND_ENV_VAR: ABCDEF
+
+deployment:
+  name: next
+  replicas: 3
+  image:
+    repository: dimasyudha
+    name: next
+    tag: latest
+
+hpa:
+  name: next-hpa
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
